@@ -1,0 +1,49 @@
+{% extends 'common/wrap.html' %}
+{% load static %}
+{% block title %}
+    Тесты
+{% endblock title %}
+{% block content %}
+    {% include 'partials/header.html' with active='360' %}
+    <div class="container pt-5">
+        {% if delegations %}
+            <div class="row">
+                <table class="table">
+                    <colgroup>
+                        <col style="width: 50%;">
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr>
+                        <th>Оцениваемый сотрудник</th>
+                        <th>Время выполнения</th>
+                        <th>Действия</th>
+                    </tr>
+                    </thead>
+                    {% for delegation in delegations %}
+                        {% with delegation.poll as poll %}
+                            <tr>
+                                <td> {{ poll.profile }}</td>
+                                <td>{{ poll.questions.count }} мин</td>
+                                <td>
+                                    <a href="{% url 'test360_questions' pk=delegation.id %}"
+                                       class="btn btn-primary">
+                                        Пройти тест
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                </table>
+            </div>
+        {% else %}
+            <div class="card px-3 py-2 text-center text-muted">
+                <div class="card-body">
+                    <h3 class="mb-3">Нет новых тестирований</h3>
+                    <p class="mb-0">Следите за обновлениями!</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}

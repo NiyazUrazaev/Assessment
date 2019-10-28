@@ -1,0 +1,66 @@
+{% extends 'common/wrap.html' %}
+{% load static %}
+{% block title %}
+    {{ test.title }} - Тесты
+{% endblock title %}
+{% block content %}
+    {% include 'partials/header.html' with active='tests' %}
+    <div class="container pt-5 pb-5 d-flex flex-column justify-content-center">
+        <h1 class="text-center mb-2">{{ test.title }}</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4 w-75 mx-auto">
+                {% load shuffle %}
+                {% load roman %}
+                {% for title, questions in blocks %}
+                    <h2 class="h3 mt-5">{{ forloop.counter|romanize }}. {{ title }}</h2>
+                    {% for question in questions %}
+                        <div class="card p-3 mb-3">
+                            <div class="card-body">
+                                <h3 class="h4">{{ forloop.counter }}. {{ question.title }}</h3>
+                                {% if question.code %}
+                                    <h4 class="h4">
+                                        <pre class="prettyprint">{{ question.code }}</pre>
+                                    </h4>
+                                {% endif %}
+
+                                {% for answer in question.answers.all|shuffle %}
+                                    <div class="custom-control {% if question.is_few_right_answers %}custom-checkbox{% else %}custom-radio{% endif %}">
+                                        <input type="{% if question.is_few_right_answers %}checkbox{% else %}radio{% endif %}"
+                                               id="q{{ question.pk }}-a{{ answer.pk }}"
+                                               name="{{ question.pk }}{% if question.is_few_right_answers %}[]{% endif %}"
+                                               value="{{ answer.pk }}"
+                                               class="custom-control-input">
+
+                                        <label class="custom-control-label"
+                                               for="q{{ question.pk }}-a{{ answer.pk }}">
+                                            {% if answer.answer %}
+                                            {{ answer.answer }}
+                                            {% endif %}
+                                            {% if answer.answer and answer.code %}
+                                            <br>
+                                            {% endif %}
+                                            {% if answer.code %}
+                                                <pre class="prettyprint">{{ answer.code }}</pre>
+                                            {% endif %}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+
+            <div class="w-100 text-center">
+                <input type="submit"
+                       class="btn btn-lg btn-primary"
+                       value="Отправить">
+            </div>
+
+        </form>
+    </div>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+{% endblock content %}

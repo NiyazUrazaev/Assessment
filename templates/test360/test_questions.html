@@ -1,0 +1,37 @@
+{% extends 'common/wrap.html' %}
+{% load static %}
+{% block title %}
+    Прохождение 360
+{% endblock title %}
+{% block content %}
+    {% include 'partials/header.html' with active='360' %}
+    <div class="container pt-5 pb-5 d-flex flex-column justify-content-center">
+        <h1 class="text-center mb-2">{{ test.title }}</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-4 w-75 mx-auto">
+                {% load shuffle %}
+                {% load roman %}
+                <h2 class="h3 mt-5">Тест 360</h2>
+                {% for question in questions %}
+                    <div class="card p-3 mb-3">
+                        <div class="card-body">
+                            <h3 class="h4">{{ question.title }}</h3>
+                        </div>
+                        <textarea style="overflow: hidden;"
+                                  class="form-control" id="{{ question.id }}" rows="8" name="{{ question.pk }}"></textarea>
+                        <div id="text_area_div" style="visibility: hidden;"></div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="w-100 text-center">
+                <input type="submit"
+                       class="btn btn-lg btn-primary"
+                       value="Отправить">
+            </div>
+
+        </form>
+    </div>
+{% endblock content %}

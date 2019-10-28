@@ -1,0 +1,30 @@
+{% extends 'common/wrap.html' %}
+{% load static %}
+{% block title %}
+    Тестирование завершено - Тесты
+{% endblock title %}
+{% block content %}
+    {% include 'partials/header.html' with active='tests' %}
+    <div class="container pt-5 pb-5 d-flex flex-column justify-content-center">
+        <h1 class="text-center mb-5">Тестирование "{{ test.title }}"
+            завершено</h1>
+
+
+        <div class="mb-4 w-75 mx-auto">
+            <div class="card p-3 mb-3">
+                <div class="card-body">
+                    {% load result_format %}
+                    <h3 class="h4">Результат: {{ delegation.result|percentage }}</h3>
+                    <p><strong>Время прохождения:</strong>
+                        {% if delegation.duration|in_minutes == 0 %}
+                            {{ delegation.duration|seconds }} секунд
+                        {% else %}
+                            {{ delegation.duration|in_minutes }} минут
+                            {{ delegation.duration|seconds }} секунд
+                        {% endif %}</p>
+                    <a href="{% url 'profile' %}" class="btn btn-primary">К профилю</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

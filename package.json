@@ -1,0 +1,28 @@
+{
+  "name": "assessment",
+  "version": "0.4.0",
+  "description": "Staff assessment solution developed by the students of HS ITIS as a part of BARS group workshop",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node ./node_modules/gulp/bin/gulp.js",
+    "watch": "node ./node_modules/gulp/bin/gulp.js watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/one-itis-bars-2019/assessment.git"
+  },
+  "author": "Assessment team",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://gitlab.com/one-itis-bars-2019/assessment/issues"
+  },
+  "homepage": "https://gitlab.com/one-itis-bars-2019/assessment#readme",
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-cssnano": "^2.1.3",
+    "gulp-sass": "^4.0.2"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1"
+  }
+}

@@ -1,0 +1,34 @@
+{% extends 'partials/header_base.html' %}
+
+{% block left_menu %}
+    <li class="nav-item">
+        <a class="nav-link {% if active == 'tests' %}active{% endif %}"
+            href="{% url 'test_list' %}">Тестирования навыков
+            {% if user.new_tests %}
+                <span class="ml-2 badge badge-info">{{ user.new_tests.count }}</span>
+            {% endif %}
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if active == '360' %}active{% endif %}"
+            href="{% url 'test_list360' %}">Тестирования 360º
+            {% if user.new_tests360 %}
+                <span class="ml-2 badge badge-info">{{ user.new_tests360.count }}</span>
+            {% endif %}
+        </a>
+    </li>
+{% endblock %}
+
+{% block right_menu %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle {% if active == 'profile' %}active{% endif %}"
+           href="#"
+           data-toggle="dropdown">
+            {{ user.get_full_name }}
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="{% url 'profile' %}">Профиль</a>
+            <a class="dropdown-item" href="{% url 'logout' %}">Выход</a>
+        </div>
+    </li>
+{% endblock %}

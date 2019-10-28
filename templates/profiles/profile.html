@@ -1,0 +1,81 @@
+{% extends 'common/wrap.html' %}
+{% load static %}
+
+{% block title %}
+    {{ user.get_full_name }} - Профиль
+{% endblock title %}
+
+{% block content %}
+    {% include 'partials/header.html' with active='profile' %}
+    <div class="container pt-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-3">
+                <div class="card">
+                    <img src="{% static 'img/placeholder.png' %}"
+                         alt="{{ user.get_full_name }}"
+                         class="card-img-top">
+                    <div class="card-body">
+                        <h3 class="card-title">{{ user.get_full_name }}</h3>
+                        <p class="card-subtitle">{{ user.occupation.title }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9">
+                {% if user.completed_tests %}
+                    <div class="card px-3 py-2">
+                        <div class="card-body">
+                            <section class="mb-4">
+                                <h3>Тестирования</h3>
+                                <table class="table">
+                                    <colgroup>
+                                        <col width="55%">
+                                        <col width="25%">
+                                        <col width="20%">
+                                    </colgroup>
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Название</th>
+                                        <th scope="col">Результат</th>
+                                        <th scope="col"> Время прохождения</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for delegation in tests %}
+                                        <tr>
+                                            <td scope="col">
+                                                {{ delegation.test.title }}
+                                            </td>
+                                            {% load result_format %}
+                                            <td scope="col"
+                                                class="{{ delegation.result|table_class }}">
+
+                                                {{ delegation.result|percentage }}
+                                            </td>
+                                            <td scope="col">
+                                                {{ delegation.duration|in_minutes }} минут
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+{#                                      <tr>#}
+{#                                          <th class="text-center" scope="row"#}
+{#                                              colspan="3">#}
+{#                                              Посмотреть все результаты#}
+{#                                          </th>#}
+{#                                      </tr>#}
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card px-3 py-2 text-center text-muted">
+                        <div class="card-body">
+                            <h3 class="mb-3">Результатов пока нет</h3>
+                            <p class="mb-0">Пройдите тест</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
